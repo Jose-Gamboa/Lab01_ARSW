@@ -5,10 +5,18 @@
  */
 package edu.eci.arsw.threads;
 
+import java.lang.Thread;
+
 /**
  *
  * @author hcadavid
  */
 public class CountThread {
+	
+	public void CountTread() {
+		
+	}
+	
+	
     
 }
