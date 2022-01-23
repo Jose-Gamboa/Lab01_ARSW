@@ -17,13 +17,24 @@
 
 1. De acuerdo con lo revisado en las lecturas, complete las clases CountThread, para que las mismas definan el ciclo de vida de un hilo que imprima por pantalla los números entre A y B.
 
-![](img/parte1 P1.png)
+- Implementacion de la clase CountThread
+
+![](img/CountThread_impl.png)
+
+- Resultado de la ejecucuion
+
+![](img/CountThread_res.png)
 
 2. Complete el método __main__ de la clase CountMainThreads para que:
-	1. Cree 3 hilos de tipo CountThread, asignándole al primero el intervalo [0..99], al segundo [99..199], y al tercero [200..299].
-	2. Inicie los tres hilos con 'start()'.
+	1. Cree 3 hilos de tipo CountThread, asignándole al primero el intervalo [0..99], al segundo [99..199], y al tercero [200..299]. 
+![](img/Tres_hilos.png)
+	2. Inicie los tres hilos con 'start()'. 
 	3. Ejecute y revise la salida por pantalla. 
-	4. Cambie el incio con 'start()' por 'run()'. Cómo cambia la salida?, por qué?.
+![](img/Ejecucion_start.png)
+	4. Cambie el incio con 'start()' por 'run()'.  
+![](img/Ejecucion_run.png)
+	Cómo cambia la salida?, por qué?.
+	Rta// Al ejecutarlo con run nos imprimen los numeros en el orden en el que los estemos llamando contrario a lo que sucede con el star que simplemente inicia los trheads y estos se ejecutan sin un orden determinado.
 
 **Parte II - Ejercicio Black List Search**
 
