@@ -8,6 +8,7 @@ package edu.eci.arsw.blacklistvalidator;
 import edu.eci.arsw.spamkeywordsdatasource.HostBlacklistsDataSourceFacade;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -62,9 +63,46 @@ public class HostBlackListsValidator {
         return blackListOcurrences;
     }
     
+    public List<Integer> checkHost(String ipaddress, int n) throws InterruptedException{
+        
+        LinkedList<Integer> blackListOcurrences=new LinkedList<>();
+        int ocurrencesCount=0;
+        HostBlacklistsDataSourceFacade skds=HostBlacklistsDataSourceFacade.getInstance();
+        
+        int div = skds.getRegisteredServersCount()/n;
+        int ini = 0;
+        int fin = 0;
+        ArrayList<HostBlackListThread> lth= new ArrayList<HostBlackListThread>();
+        
+        for(int i=0;i<n;i++) {
+        	ini = div*i;
+        	fin = ini + div;
+        	HostBlackListThread th = new HostBlackListThread(ini, fin, ipaddress);
+        	th.start();
+        	lth.add(th);
+        }
+        
+        for(HostBlackListThread hbth:lth) {
+        	hbth.join();
+        }
+        
+        for(HostBlackListThread hbth:lth) {
+        	ocurrencesCount = ocurrencesCount + hbth.ocurrences();
+        	blackListOcurrences.addAll(hbth.getBlackListOcurrences());
+        }
+        
+        if (ocurrencesCount>=BLACK_LIST_ALARM_COUNT){
+            skds.reportAsNotTrustworthy(ipaddress);
+        }
+        else{
+            skds.reportAsTrustworthy(ipaddress);
+        }                
+        
+        LOG.log(Level.INFO, "Checked Black Lists:{0} of {1}", new Object[]{skds.getRegisteredServersCount(),skds.getRegisteredServersCount()});
+        
+        return blackListOcurrences;
+    }
     
     private static final Logger LOG = Logger.getLogger(HostBlackListsValidator.class.getName());
-    
-    
     
 }
